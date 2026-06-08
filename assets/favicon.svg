@@ -1,0 +1,16 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Rounded Square Background - Dark Blue -->
+  <rect x="16" y="16" width="480" height="480" rx="80" ry="80" fill="#0d3b66"/>
+
+  <!-- Top Chevron -->
+  <polyline points="130,280 256,154 382,280" fill="none" stroke="#29b6f6" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Bottom Chevron -->
+  <polyline points="130,340 256,214 382,340" fill="none" stroke="#29b6f6" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Circle -->
+  <circle cx="256" cy="370" r="24" fill="#29b6f6"/>
+
+  <!-- Horizontal Line -->
+  <line x1="100" y1="420" x2="412" y2="420" stroke="#29b6f6" stroke-width="28" stroke-linecap="round"/>
+</svg>
