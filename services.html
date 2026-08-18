@@ -371,5 +371,79 @@
         window.addEventListener('load',function(){setTimeout(function(){document.querySelector('.page-transition').classList.add('slide-out')},1000)});
         document.querySelectorAll('a').forEach(function(link){if(link.hostname===window.location.hostname&&!link.hash){link.addEventListener('click',function(e){var href=this.getAttribute('href');if(href&&href!=='#'&&!href.startsWith('#')&&!href.startsWith('http')){e.preventDefault();document.querySelector('.page-transition').classList.remove('slide-out');setTimeout(function(){window.location.href=href},700)}})}});
     </script>
+    <!-- Service detail modal -->
+    <style>
+        .mission-card{cursor:pointer;}
+        .mission-card .svc-more{display:block;margin-top:14px;color:var(--sky-400);font-size:.85rem;font-weight:600;}
+        .svc-modal{position:fixed;inset:0;background:rgba(8,15,30,.8);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;z-index:3000;padding:40px 16px;overflow-y:auto;}
+        .svc-modal.open{display:flex;}
+        .svc-box{background:#0f172a;border:1px solid rgba(56,189,248,.25);border-radius:16px;max-width:660px;width:100%;padding:36px;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.55);}
+        .svc-close{position:absolute;top:12px;right:18px;background:none;border:none;color:var(--sky-400);font-size:32px;line-height:1;cursor:pointer;}
+        .svc-lead{color:var(--sky-400);font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;font-weight:700;}
+        .svc-box h2{color:#fff;font-size:1.8rem;margin:0 0 14px;font-weight:900;}
+        .svc-box h2 span{color:var(--sky-400);}
+        .svc-box p{color:var(--slate-300);line-height:1.8;margin:0 0 16px;font-size:1rem;}
+        .svc-box h3{color:var(--sky-400);font-size:1.05rem;margin:24px 0 12px;font-weight:800;}
+        .svc-includes{list-style:none;padding:0;margin:0;}
+        .svc-includes li{color:var(--slate-200);padding:6px 0 6px 26px;position:relative;line-height:1.6;}
+        .svc-includes li::before{content:'\2713';position:absolute;left:0;color:var(--sky-400);font-weight:700;}
+        .svc-steps{display:grid;gap:14px;margin:6px 0 4px;}
+        .svc-step{display:flex;gap:14px;align-items:flex-start;}
+        .svc-step .n{flex:none;width:34px;height:34px;border-radius:50%;background:var(--sky-500);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.95rem;}
+        .svc-step .t{color:#fff;font-weight:700;margin-bottom:2px;}
+        .svc-step .d{color:var(--slate-400);font-size:.92rem;line-height:1.6;}
+        .svc-cta{display:inline-block;margin-top:24px;background:var(--sky-500);color:#fff;padding:12px 26px;border-radius:10px;font-weight:700;text-decoration:none;transition:background .2s;}
+        .svc-cta:hover{background:var(--sky-400);}
+    </style>
+    <div class="svc-modal" id="svcModal" onclick="if(event.target===this)svcClose()">
+        <div class="svc-box">
+            <button class="svc-close" onclick="svcClose()" aria-label="Close">&times;</button>
+            <div id="svcBody"></div>
+        </div>
+    </div>
+    <script>
+    (function(){
+        var DATA = {
+            "Roads & Highways": {intro:"Full road and highway design that takes a corridor from geometry and pavement engineering through to approved drawings and site supervision.", inc:["Highway geometry and intersection design","Pavement and materials engineering","Signalised junctions and road marking","RTA and municipality approvals"]},
+            "Storm Water & Drainage": {intro:"Drainage engineered to keep roads, communities and assets protected during the region's intense rainfall events.", inc:["Hydraulic modelling and water-flow analysis","Drainage network and routing design","Soakaway, pumping and outfall design","Compliance with municipality and RTA standards"]},
+            "Pipeline Design": {intro:"Pipeline networks for water, sewer, irrigation and district cooling, integrated with the wider infrastructure package.", inc:["Potable water and sewerage pipelines","Irrigation and district-cooling distribution","Hydraulic sizing and pump-station design","Coordination with roads and utilities"]},
+            "Utilities Networks": {intro:"All the wet and dry utilities that serve a development, coordinated with every service authority to avoid clashes and delays.", inc:["Water, sewerage and drainage networks","Electrical distribution and telecom ducting","DEWA, ADDC, SEWA, Etisalat and du coordination","Utility diversion and protection design"]},
+            "Traffic Diversions": {intro:"Traffic-diversion planning that keeps works moving and the public safe, from temporary schemes to permanent arrangements.", inc:["Temporary and permanent diversion planning","Mobility and traffic-impact studies","Signage, marking and staging drawings","On-site construction supervision"]},
+            "Marine & Coastal Works": {intro:"Engineering for waterfront and coastal environments, where durability and corrosion resistance are critical.", inc:["Coastal and waterfront infrastructure","Corrosion-resistant materials design","Marine utility crossings","Shoreline and reclamation coordination"]},
+            "Bridges & Structures": {intro:"Structural design for the bridges, culverts and retaining structures that tie a road and drainage network together.", inc:["Bridge, culvert and underpass design","Retaining walls and earth-retention systems","Integration with road and drainage packages","Construction methodology and staging"]},
+            "Authority Approvals & NOC": {intro:"End-to-end management of every authority submission and No Objection Certificate so approvals never stall the programme.", inc:["RTA, DEWA, ADDC and SEWA submissions","Dubai Municipality, DDA and Trakhees NOCs","Abu Dhabi DMT approvals","Technical-comment resolution until certificate issue"]}
+        };
+        var STEPS = [
+            {t:"Enquiry & Site Assessment", d:"We review your scope, survey data and site constraints, then agree deliverables, programme and the authorities involved."},
+            {t:"Concept & Detailed Design", d:"Our engineers produce coordinated, code-compliant designs for the roads, drainage, pipelines and utilities through to IFC."},
+            {t:"Authority Approvals & NOC", d:"We prepare and lodge compliant submissions, resolve reviewer comments and follow up until every NOC is issued."},
+            {t:"Construction Supervision & Handover", d:"We stay engaged through construction with site supervision, inspections and as-built close-out at handover."}
+        ];
+        window.openService = function(key){
+            var d = DATA[key]; if(!d) return;
+            var h = '<div class="svc-lead">Our Services</div><h2>'+key+'</h2><p>'+d.intro+'</p>';
+            h += '<h3>What&rsquo;s included</h3><ul class="svc-includes">';
+            d.inc.forEach(function(i){h+='<li>'+i+'</li>';});
+            h += '</ul><h3>How We Proceed</h3><div class="svc-steps">';
+            STEPS.forEach(function(s,idx){h+='<div class="svc-step"><div class="n">'+(idx+1)+'</div><div><div class="t">'+s.t+'</div><div class="d">'+s.d+'</div></div></div>';});
+            h += '</div><a class="svc-cta" href="https://www.dasandpartnersengineering.com" target="_blank" rel="noopener">Discuss your project with DAS &amp; Partners</a>';
+            document.getElementById('svcBody').innerHTML = h;
+            document.getElementById('svcModal').classList.add('open'); document.body.style.overflow='hidden';
+        };
+        window.svcClose = function(){document.getElementById('svcModal').classList.remove('open'); document.body.style.overflow='';};
+        document.addEventListener('keydown', function(e){if(e.key==='Escape')svcClose();});
+        document.querySelectorAll('.mission-card').forEach(function(card){
+            var h3 = card.querySelector('.mission-title'); if(!h3) return;
+            var key = h3.textContent.trim();
+            if(!DATA[key]) return;
+            card.setAttribute('role','button'); card.setAttribute('tabindex','0');
+            var more = document.createElement('span'); more.className='svc-more'; more.textContent='View details & process →';
+            card.appendChild(more);
+            card.addEventListener('click', function(){openService(key);});
+            card.addEventListener('keydown', function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openService(key);}});
+        });
+    })();
+    </script>
+
 </body>
 </html>
