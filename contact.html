@@ -168,6 +168,34 @@
                 <div class="email-address"><a href="mailto:info@infrastructuretalks.com">info@infrastructuretalks.com</a></div>
                 <p class="email-note">We typically respond within 24-48 hours. For urgent inquiries, please mention "URGENT" in your subject line.</p>
             </div>
+            <div class="if-contact-card">
+                <h3>Send Us a Message</h3>
+                <form class="if-form" id="contactForm" data-das-lead data-form-type="contact">
+                    <div class="if-row">
+                        <div class="if-field"><label for="ifName">Full Name *</label><input id="ifName" name="name" type="text" required></div>
+                        <div class="if-field"><label for="ifEmail">Email Address *</label><input id="ifEmail" name="email" type="email" required></div>
+                    </div>
+                    <div class="if-row">
+                        <div class="if-field"><label for="ifPhone">Phone Number</label><input id="ifPhone" name="phone" type="tel"></div>
+                        <div class="if-field"><label for="ifSubject">Subject</label><input id="ifSubject" name="subject" type="text" placeholder="How can we help?"></div>
+                    </div>
+                    <div class="if-field"><label for="ifMsg">Message *</label><textarea id="ifMsg" name="message" rows="5" required></textarea></div>
+                    <button type="submit" class="if-submit">Send Message</button>
+                </form>
+            </div>
+            <style>
+            .if-contact-card{background:#fff;border-radius:24px;padding:2.5rem;box-shadow:0 10px 50px rgba(0,0,0,.08);max-width:640px;margin:2rem auto 0;text-align:left}
+            .if-contact-card h3{margin:0 0 1.25rem;font-size:1.4rem;color:var(--slate-900,#0f172a)}
+            .if-form{display:flex;flex-direction:column;gap:1rem}
+            .if-row{display:flex;gap:1rem;flex-wrap:wrap}
+            .if-field{flex:1;min-width:200px;display:flex;flex-direction:column;gap:.4rem}
+            .if-form label{font-size:.85rem;font-weight:600;color:var(--slate-700,#334155)}
+            .if-form input,.if-form textarea{width:100%;padding:.8rem 1rem;border:1px solid var(--slate-300,#cbd5e1);border-radius:10px;font-size:.95rem;font-family:inherit;color:var(--slate-800,#1e293b);background:#fff}
+            .if-form input:focus,.if-form textarea:focus{outline:none;border-color:var(--sky-600,#0284c7);box-shadow:0 0 0 3px rgba(2,132,199,.12)}
+            .if-form textarea{resize:vertical}
+            .if-submit{align-self:flex-start;padding:.85rem 1.75rem;background:var(--sky-600,#0284c7);color:#fff;border:0;border-radius:10px;font-weight:700;font-size:.95rem;cursor:pointer;transition:background .3s}
+            .if-submit:hover{background:var(--sky-700,#0369a1)}
+            </style>
             <div class="topics-section">
                 <h3>What Can We Help You With?</h3>
                 <div class="topics-grid">
@@ -339,5 +367,8 @@
         window.addEventListener('load',function(){setTimeout(function(){document.querySelector('.page-transition').classList.add('slide-out')},1000)});
         document.querySelectorAll('a').forEach(function(link){if(link.hostname===window.location.hostname&&!link.hash){link.addEventListener('click',function(e){var href=this.getAttribute('href');if(href&&href!=='#'&&!href.startsWith('#')&&!href.startsWith('http')){e.preventDefault();document.querySelector('.page-transition').classList.remove('slide-out');setTimeout(function(){window.location.href=href},700)}})}});
     </script>
+<!-- DAS Central Leads -->
+<script>window.DAS_LEADS_ENDPOINT='https://www.dasandpartnersengineering.com/leads/api/submit.php';window.DAS_LEADS_SITE='infrastructuretalks';</script>
+<script src="/leads.js" defer></script>
 </body>
 </html>
