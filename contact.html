@@ -368,7 +368,7 @@
         document.querySelectorAll('a').forEach(function(link){if(link.hostname===window.location.hostname&&!link.hash){link.addEventListener('click',function(e){var href=this.getAttribute('href');if(href&&href!=='#'&&!href.startsWith('#')&&!href.startsWith('http')){e.preventDefault();document.querySelector('.page-transition').classList.remove('slide-out');setTimeout(function(){window.location.href=href},700)}})}});
     </script>
 <!-- DAS Central Leads -->
-<script>window.DAS_LEADS_ENDPOINT='https://www.dasandpartnersengineering.com/leads/api/submit.php';window.DAS_LEADS_SITE='infrastructuretalks';</script>
+<script>window.DAS_LEADS_ENDPOINT='/lead-relay.php';window.DAS_LEADS_SITE='infrastructuretalks';</script>
 <script src="/leads.js" defer></script>
 </body>
 </html>
